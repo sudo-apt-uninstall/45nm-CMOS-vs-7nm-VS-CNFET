@@ -1,567 +1,426 @@
-\# Investigation of VLSI Circuits Across Emerging Transistor Technologies
+# Investigation of VLSI Circuits Across Emerging Transistor Technologies
 
+### Comparative Study of 45nm CMOS and 7nm Virtual-Source Carbon Nanotube FET
 
+<p align="center">
+  <b>Cadence Virtuoso · Spectre · GPDK045 · Stanford VS-CNFET · Verilog-A</b>
+</p>
 
-\### A Comparative Study of 45nm CMOS and 7nm Carbon Nanotube FET
+<p align="center">
+  <a href="#overview">Overview</a> •
+  <a href="#methodology">Methodology</a> •
+  <a href="#circuit-implementations">Circuits</a> •
+  <a href="#performance-results">Results</a> •
+  <a href="#key-findings">Key Findings</a>
+</p>
 
+---
 
+## Overview
 
-A circuit-level investigation of conventional \*\*45nm CMOS\*\* and emerging
+This project investigates the performance of digital VLSI circuits implemented
+using conventional **45nm CMOS** and emerging **7nm Virtual-Source Carbon
+Nanotube FET (VS-CNFET)** technologies.
 
-\*\*7nm Virtual-Source Carbon Nanotube FET (VS-CNFET)\*\* technologies through
+Three fundamental digital circuits were designed, simulated, and characterized:
+
+- CMOS inverter
+- Conventional 38-transistor (38T) full adder
+- 10-transistor (10T) pass-transistor-logic full adder
+
+The study examines both **device-technology scaling** and **circuit-topology
+optimization**, rather than treating transistor technology as the sole
+determinant of circuit performance.
+
+Performance was evaluated using:
+
+`Propagation Delay` · `Dynamic Power` · `Static Power` · `PDP` · `EDP` ·
+`Drive Current` · `Noise Margin` · `Output Swing` · `Maximum Frequency`
+
+---
+
+## Performance at a Glance
+
+| Circuit | Technology | Avg. Delay | Dynamic Power | PDP |
+|---|---|---:|---:|---:|
+| Inverter | 45nm CMOS | 19.87 ps | **5.953 µW** | 118.29 aJ |
+| Inverter | **7nm VS-CNFET** | **3.895 ps** | 7.337 µW | **28.57 aJ** |
+| 38T Full Adder | 45nm CMOS | 24.67 ps | **1.573 µW** | **38.80 aJ** |
+| 38T Full Adder | **7nm VS-CNFET** | **8.773 ps** | 11.80 µW | 103.517 aJ |
+| 10T PTL Full Adder | **45nm CMOS** | 18.791 ps | **184.23 nW** | **3.462 aJ** |
+| 10T PTL Full Adder | 7nm VS-CNFET | **10.14 ps** | 784.96 nW | 7.960 aJ |
+
+> **Central observation:** VS-CNFET provides a substantial switching-speed
+> advantage, while circuit topology strongly influences power and
+> energy efficiency. The fastest device technology does not necessarily
+> produce the lowest-energy circuit implementation.
 
-the design, simulation, and characterization of digital VLSI circuits.
+---
 
+## Methodology
 
+### Technology Platforms
 
-The study evaluates how transistor technology and circuit topology influence
+| Parameter | 45nm CMOS | 7nm VS-CNFET |
+|---|---|---|
+| Device technology | Silicon CMOS | Carbon Nanotube FET |
+| Technology node | 45nm | 7nm study configuration |
+| Model / PDK | Cadence GPDK045 | Stanford VS-CNFET v1.0.1 |
+| Supply voltage | 1.0 V | 0.71 V |
+| Simulator | Cadence Spectre | Cadence Spectre |
+| Design environment | Cadence Virtuoso | Cadence Virtuoso |
+| Model implementation | PDK device models | Verilog-A |
 
-\*\*propagation delay, power consumption, power-delay product (PDP), energy-delay
+### Design Flow
 
-product (EDP), drive current, noise margins, output swing, and maximum operating
+**Schematic Design → Testbench Construction → DC/Transient Simulation →
+Delay & Power Extraction → PDP/EDP Calculation → Cross-Technology Analysis**
 
-frequency\*\*.
+The inverter was first characterized to establish device-level switching
+behavior. The investigation was then extended to 38T and 10T full-adder
+architectures to study the interaction between **transistor technology and
+logic topology**.
 
+---
 
+## Circuit Implementations
 
-\---
+### 1. Inverter
 
+The inverter provides the baseline comparison between 45nm CMOS and 7nm
+VS-CNFET switching characteristics.
 
+<table>
+<tr>
+<th align="center">45nm CMOS</th>
+<th align="center">7nm VS-CNFET</th>
+</tr>
+<tr>
+<td><img src="circuits/inverter/45nm-CMOS/cmos45-inverter-schematic.png" alt="45nm CMOS inverter schematic"></td>
+<td><img src="circuits/inverter/7nm-VS-CNFET/vscnfet7-inverter-schematic.png" alt="7nm VS-CNFET inverter schematic"></td>
+</tr>
+</table>
 
-\## Overview
+#### Simulation Testbenches
 
+<table>
+<tr>
+<th align="center">45nm CMOS</th>
+<th align="center">7nm VS-CNFET</th>
+</tr>
+<tr>
+<td><img src="circuits/inverter/45nm-CMOS/cmos45-inverter-testbench.png"></td>
+<td><img src="circuits/inverter/7nm-VS-CNFET/vscnfet7-inverter-testbench.png"></td>
+</tr>
+</table>
 
+#### DC Characteristics
+
+<table>
+<tr>
+<th align="center">45nm CMOS</th>
+<th align="center">7nm VS-CNFET</th>
+</tr>
+<tr>
+<td><img src="circuits/inverter/45nm-CMOS/cmos45-inverter-dc-characteristics.png"></td>
+<td><img src="circuits/inverter/7nm-VS-CNFET/vscnfet7-inverter-dc-characteristics.png"></td>
+</tr>
+</table>
 
-Continued transistor scaling presents increasing challenges involving leakage
+#### Propagation-Delay Measurement
 
-current, short-channel effects, power density, and performance. Carbon Nanotube
+<table>
+<tr>
+<th align="center">45nm CMOS</th>
+<th align="center">7nm VS-CNFET</th>
+</tr>
+<tr>
+<td><img src="circuits/inverter/45nm-CMOS/cmos45-inverter-propagation-delay.png"></td>
+<td><img src="circuits/inverter/7nm-VS-CNFET/vscnfet7-inverter-propagation-delay.png"></td>
+</tr>
+</table>
 
-Field-Effect Transistors (CNFETs) are a promising emerging-device technology
+The VS-CNFET inverter achieved an average propagation delay of **3.895 ps**
+compared with **19.87 ps** for 45nm CMOS — approximately a **5.1× speed
+improvement**.
 
-for extending digital circuit performance beyond conventional silicon CMOS.
+![Inverter Delay Comparison](results/inverter/inverter-delay-comparison.png)
 
+<details>
+<summary><b>Additional inverter characterization</b></summary>
 
+### Drive Current
 
-This project investigates these trade-offs through circuit-level simulations of:
+![Drive Current](results/inverter/inverter-drive-current-comparison.png)
 
+### Power-Delay Product
 
+![Inverter PDP](results/inverter/inverter-pdp-comparison.png)
 
-\- CMOS inverter
+### Static Power
 
-\- 38-transistor (38T) full adder
+![Static Power](results/inverter/inverter-static-power-comparison.png)
 
-\- 10-transistor (10T) pass-transistor-logic full adder
+### Noise Margin
 
+![Noise Margin](results/inverter/inverter-noise-margin-comparison.png)
 
+### Output Swing
 
-Each circuit was implemented using both:
+![Output Swing](results/inverter/inverter-output-swing-comparison.png)
+
+</details>
 
+---
+
+### 2. 38T Full Adder
 
+The conventional 38T full adder was implemented in both technologies to
+evaluate device-level performance while retaining a full-swing complementary
+logic topology.
 
-| Technology | Technology Node | Supply Voltage |
+#### Schematics
 
-|---|---:|---:|
+<table>
+<tr>
+<th align="center">45nm CMOS</th>
+<th align="center">7nm VS-CNFET</th>
+</tr>
+<tr>
+<td><img src="circuits/full-adder-38T/45nm-CMOS/cmos45-full-adder-38t-schematic.png"></td>
+<td><img src="circuits/full-adder-38T/7nm-VS-CNFET/vscnfet7-full-adder-38t-schematic.png"></td>
+</tr>
+</table>
 
-| CMOS | 45nm | 1.0 V |
+#### Transient Verification
 
-| VS-CNFET | 7nm | 0.71 V |
+<table>
+<tr>
+<th align="center">45nm CMOS</th>
+<th align="center">7nm VS-CNFET</th>
+</tr>
+<tr>
+<td><img src="circuits/full-adder-38T/45nm-CMOS/cmos45-full-adder-38t-transient.png"></td>
+<td><img src="circuits/full-adder-38T/7nm-VS-CNFET/vscnfet7-full-adder-38t-transient.png"></td>
+</tr>
+</table>
 
+The VS-CNFET implementation reduced average propagation delay from
+**24.67 ps to 8.773 ps**, corresponding to approximately **2.81× higher
+speed**. However, the CMOS implementation demonstrated lower dynamic power
+and PDP for this topology.
 
+<table>
+<tr>
+<td><img src="results/full-adder-38T/full-adder-38t-delay-comparison.png"></td>
+<td><img src="results/full-adder-38T/full-adder-38t-average-power.png"></td>
+</tr>
+</table>
 
-The CMOS implementations use \*\*Cadence GPDK045\*\*, while the CNFET
+<details>
+<summary><b>38T power characterization</b></summary>
 
-implementations use the \*\*Stanford Virtual-Source CNFET model (v1.0.1)\*\*.
+![38T PDP](results/full-adder-38T/full-adder-38t-pdp.png)
 
+![38T Static Power](results/full-adder-38T/full-adder-38t-static-power.png)
 
+</details>
 
-\---
+---
 
+### 3. 10T Pass-Transistor-Logic Full Adder
 
+The 10T implementation investigates whether **logic-topology optimization**
+can complement or outweigh the benefits obtained from transistor scaling.
 
-\## Tools and Technologies
+#### Schematics
 
+<table>
+<tr>
+<th align="center">45nm CMOS</th>
+<th align="center">7nm VS-CNFET</th>
+</tr>
+<tr>
+<td><img src="circuits/full-adder-10T/45nm-CMOS/cmos45-full-adder-10t-schematic.png"></td>
+<td><img src="circuits/full-adder-10T/7nm-VS-CNFET/vscnfet7-full-adder-10t-schematic.png"></td>
+</tr>
+</table>
 
+#### Transient Verification
 
-\- Cadence Virtuoso
+<table>
+<tr>
+<th align="center">45nm CMOS</th>
+<th align="center">7nm VS-CNFET</th>
+</tr>
+<tr>
+<td><img src="circuits/full-adder-10T/45nm-CMOS/cmos45-full-adder-10t-transient.png"></td>
+<td><img src="circuits/full-adder-10T/7nm-VS-CNFET/vscnfet7-full-adder-10t-transient.png"></td>
+</tr>
+</table>
 
-\- Cadence Spectre
+The VS-CNFET implementation achieved approximately **1.85× higher speed**.
+However, the **45nm CMOS 10T full adder achieved a PDP of only 3.462 aJ**,
+the lowest PDP among the evaluated full-adder implementations.
 
-\- GPDK045
+<table>
+<tr>
+<td><img src="results/full-adder-10T/full-adder-10t-delay-comparison.png"></td>
+<td><img src="results/full-adder-10T/full-adder-10t-average-power.png"></td>
+</tr>
+</table>
 
-\- Stanford Virtual-Source CNFET Model v1.0.1
+<details>
+<summary><b>10T power characterization</b></summary>
 
-\- Verilog-A
+![10T PDP](results/full-adder-10T/full-adder-10t-pdp.png)
 
-\- CMOS Digital VLSI Design
+![10T Static Power](results/full-adder-10T/full-adder-10t-static-power.png)
 
-\- Carbon Nanotube FET (CNFET)
+</details>
 
-\- Pass-Transistor Logic (PTL)
+---
 
-\- Circuit Characterization
+## Performance Results
 
-\- Power and Delay Analysis
+### Architecture vs. Technology
 
+![Architecture vs Technology](results/comparative-analysis/architecture-vs-technology-delay.png)
 
+The results show two distinct optimization dimensions:
 
-\---
+- **Technology scaling:** 7nm VS-CNFET consistently reduces propagation delay.
+- **Topology optimization:** the 10T PTL architecture substantially reduces
+  power consumption and PDP relative to the conventional 38T implementation.
 
+### Power–Delay Design Space
 
+![Power Delay Pareto](results/comparative-analysis/power-delay-pareto.png)
 
-\# 1. Inverter Characterization
+The Pareto analysis illustrates why there is no universally superior
+implementation: designs optimized for maximum speed occupy a different region
+of the power-delay space from designs optimized for energy efficiency.
 
+### Normalized Performance
 
+![Normalized Performance](results/comparative-analysis/normalized-performance.png)
 
-The inverter provides a device-level baseline for comparing the switching
+<details>
+<summary><b>Additional cross-technology results</b></summary>
 
-behavior of the two transistor technologies.
+### Energy-Delay Product
 
+![EDP Comparison](results/comparative-analysis/edp-comparison.png)
 
+### Energy Efficiency
 
-\## 45nm CMOS Inverter
+![Energy Efficiency](results/comparative-analysis/energy-efficiency-comparison.png)
 
+### Maximum Operating Frequency
 
+![Maximum Frequency](results/comparative-analysis/maximum-frequency-comparison.png)
 
-\### Schematic
+### Technology Speedup
 
+![Speedup](results/comparative-analysis/speedup-comparison.png)
 
+### Static Power
 
-!\[45nm CMOS inverter schematic](circuits/inverter/45nm-CMOS/cmos45-inverter-schematic.png)
+![Static Power](results/comparative-analysis/static-power-comparison.png)
 
+</details>
 
+---
 
-\### Simulation Testbench
+## Key Findings
 
+1. **VS-CNFET demonstrated a substantial speed advantage.**  
+   The inverter achieved approximately **5.1×**, the 38T full adder **2.81×**,
+   and the 10T full adder **1.85×** higher switching speed relative to their
+   45nm CMOS counterparts.
 
+2. **Higher device speed did not automatically produce better energy efficiency.**  
+   The evaluated VS-CNFET full adders consumed more power than their CMOS
+   counterparts under the simulated conditions.
 
-!\[45nm CMOS inverter testbench](circuits/inverter/45nm-CMOS/cmos45-inverter-testbench.png)
+3. **Circuit topology strongly influenced the final result.**  
+   Reducing the full-adder implementation from 38T complementary logic to
+   10T pass-transistor logic produced substantial power savings.
 
+4. **The 45nm CMOS 10T full adder achieved the lowest full-adder PDP.**  
+   Its **3.462 aJ** PDP demonstrates that architectural optimization can
+   compensate for the performance limitations of an older technology node.
 
+5. **Technology and architecture must be co-optimized.**  
+   VS-CNFET is particularly attractive for speed-critical designs, while
+   optimized CMOS/PTL implementations can remain highly competitive for
+   energy-constrained applications.
 
-\### DC Characteristics
+---
 
+## Tools & Skills
 
+| Category | Technologies / Concepts |
+|---|---|
+| EDA | Cadence Virtuoso, Cadence Spectre |
+| Device Technologies | 45nm CMOS, CNFET, VS-CNFET |
+| Models | GPDK045, Stanford VS-CNFET v1.0.1, Verilog-A |
+| Circuit Design | CMOS Logic, Inverter Design, Full Adders, PTL |
+| Characterization | Transient Analysis, DC Analysis, Propagation Delay |
+| Power Analysis | Dynamic Power, Static Power, PDP, EDP |
+| Performance | Drive Current, Noise Margin, Output Swing, Maximum Frequency |
+| Domain | Digital VLSI Design, Nanoelectronics, Emerging Transistor Technologies |
 
-!\[45nm CMOS inverter DC characteristics](circuits/inverter/45nm-CMOS/cmos45-inverter-dc-characteristics.png)
+---
 
-
-
-\### Propagation Delay
-
-
-
-!\[45nm CMOS inverter propagation delay](circuits/inverter/45nm-CMOS/cmos45-inverter-propagation-delay.png)
-
-
-
-\---
-
-
-
-\## 7nm VS-CNFET Inverter
-
-
-
-\### Schematic
-
-
-
-!\[7nm VS-CNFET inverter schematic](circuits/inverter/7nm-VS-CNFET/vscnfet7-inverter-schematic.png)
-
-
-
-\### Simulation Testbench
-
-
-
-!\[7nm VS-CNFET inverter testbench](circuits/inverter/7nm-VS-CNFET/vscnfet7-inverter-testbench.png)
-
-
-
-\### DC Characteristics
-
-
-
-!\[7nm VS-CNFET inverter DC characteristics](circuits/inverter/7nm-VS-CNFET/vscnfet7-inverter-dc-characteristics.png)
-
-
-
-\### Propagation Delay
-
-
-
-!\[7nm VS-CNFET inverter propagation delay](circuits/inverter/7nm-VS-CNFET/vscnfet7-inverter-propagation-delay.png)
-
-
-
-\---
-
-
-
-\## Inverter Results
-
-
-
-| Metric | 45nm CMOS | 7nm VS-CNFET |
-
-|---|---:|---:|
-
-| Average propagation delay | 19.87 ps | \*\*3.895 ps\*\* |
-
-| Dynamic power | \*\*5.953 µW\*\* | 7.337 µW |
-
-| PDP | 118.29 aJ | \*\*28.57 aJ\*\* |
-
-
-
-The 7nm VS-CNFET inverter achieves approximately \*\*5.1× lower propagation
-
-delay\*\*, demonstrating the substantial switching-speed advantage of the
-
-scaled CNFET implementation.
-
-
-
-!\[Inverter delay comparison](results/inverter/inverter-delay-comparison.png)
-
-
-
-!\[Inverter PDP comparison](results/inverter/inverter-pdp-comparison.png)
-
-
-
-!\[Inverter drive current comparison](results/inverter/inverter-drive-current-comparison.png)
-
-
-
-\---
-
-
-
-\# 2. 38T Full Adder
-
-
-
-A conventional 38-transistor full-adder architecture was implemented in both
-
-technologies to evaluate the effect of device technology while retaining a
-
-full-swing complementary circuit topology.
-
-
-
-\## 45nm CMOS
-
-
-
-\### Schematic
-
-
-
-!\[45nm CMOS 38T full adder](circuits/full-adder-38T/45nm-CMOS/cmos45-full-adder-38t-schematic.png)
-
-
-
-\### Transient Response
-
-
-
-!\[45nm CMOS 38T transient response](circuits/full-adder-38T/45nm-CMOS/cmos45-full-adder-38t-transient.png)
-
-
-
-\## 7nm VS-CNFET
-
-
-
-\### Schematic
-
-
-
-!\[7nm VS-CNFET 38T full adder](circuits/full-adder-38T/7nm-VS-CNFET/vscnfet7-full-adder-38t-schematic.png)
-
-
-
-\### Transient Response
-
-
-
-!\[7nm VS-CNFET 38T transient response](circuits/full-adder-38T/7nm-VS-CNFET/vscnfet7-full-adder-38t-transient.png)
-
-
-
-\## Results
-
-
-
-| Metric | 45nm CMOS | 7nm VS-CNFET |
-
-|---|---:|---:|
-
-| Average propagation delay | 24.67 ps | \*\*8.773 ps\*\* |
-
-| Average dynamic power | \*\*1.573 µW\*\* | 11.80 µW |
-
-| PDP | \*\*38.80 aJ\*\* | 103.517 aJ |
-
-
-
-The VS-CNFET implementation provides approximately \*\*2.81× higher speed\*\*,
-
-while the CMOS implementation retains a significant power and PDP advantage
-
-for this topology.
-
-
-
-!\[38T delay comparison](results/full-adder-38T/full-adder-38t-delay-comparison.png)
-
-
-
-!\[38T average power comparison](results/full-adder-38T/full-adder-38t-average-power.png)
-
-
-
-!\[38T PDP comparison](results/full-adder-38T/full-adder-38t-pdp.png)
-
-
-
-\---
-
-
-
-\# 3. 10T Pass-Transistor Full Adder
-
-
-
-The 10T implementation investigates the interaction between \*\*device
-
-technology and circuit topology\*\*. Reducing the transistor count through
-
-pass-transistor logic significantly changes the power-performance trade-off.
-
-
-
-\## 45nm CMOS
-
-
-
-\### Schematic
-
-
-
-!\[45nm CMOS 10T full adder](circuits/full-adder-10T/45nm-CMOS/cmos45-full-adder-10t-schematic.png)
-
-
-
-\### Transient Response
-
-
-
-!\[45nm CMOS 10T transient response](circuits/full-adder-10T/45nm-CMOS/cmos45-full-adder-10t-transient.png)
-
-
-
-\## 7nm VS-CNFET
-
-
-
-\### Schematic
-
-
-
-!\[7nm VS-CNFET 10T full adder](circuits/full-adder-10T/7nm-VS-CNFET/vscnfet7-full-adder-10t-schematic.png)
-
-
-
-\### Transient Response
-
-
-
-!\[7nm VS-CNFET 10T transient response](circuits/full-adder-10T/7nm-VS-CNFET/vscnfet7-full-adder-10t-transient.png)
-
-
-
-\## Results
-
-
-
-| Metric | 45nm CMOS | 7nm VS-CNFET |
-
-|---|---:|---:|
-
-| Average propagation delay | 18.791 ps | \*\*10.14 ps\*\* |
-
-| Average dynamic power | \*\*184.23 nW\*\* | 784.96 nW |
-
-| PDP | \*\*3.462 aJ\*\* | 7.960 aJ |
-
-
-
-The VS-CNFET implementation provides approximately \*\*1.85× higher speed\*\*.
-
-However, the 45nm CMOS 10T implementation achieves the \*\*lowest PDP among
-
-the evaluated full-adder configurations\*\*.
-
-
-
-!\[10T delay comparison](results/full-adder-10T/full-adder-10t-delay-comparison.png)
-
-
-
-!\[10T average power comparison](results/full-adder-10T/full-adder-10t-average-power.png)
-
-
-
-!\[10T PDP comparison](results/full-adder-10T/full-adder-10t-pdp.png)
-
-
-
-\---
-
-
-
-\# Comparative Analysis
-
-
-
-The results demonstrate that transistor technology alone does not determine
-
-the optimum digital circuit implementation.
-
-
-
-\*\*VS-CNFET provides a strong speed advantage\*\*, particularly at the inverter
-
-level, while the CMOS implementations exhibit favorable power characteristics
-
-for the evaluated operating conditions.
-
-
-
-Circuit topology also has a substantial effect. The 10T PTL architecture
-
-significantly reduces dynamic power compared with the conventional 38T
-
-architecture, demonstrating that architectural optimization can be as
-
-important as device scaling.
-
-
-
-!\[Architecture vs technology delay](results/comparative-analysis/architecture-vs-technology-delay.png)
-
-
-
-!\[Normalized performance](results/comparative-analysis/normalized-performance.png)
-
-
-
-!\[Power-delay Pareto analysis](results/comparative-analysis/power-delay-pareto.png)
-
-
-
-!\[Energy-delay comparison](results/comparative-analysis/edp-comparison.png)
-
-
-
-!\[Maximum operating frequency](results/comparative-analysis/maximum-frequency-comparison.png)
-
-
-
-\---
-
-
-
-\## Key Findings
-
-
-
-\- The \*\*7nm VS-CNFET inverter\*\* achieved approximately \*\*5.1× lower propagation delay\*\* than the 45nm CMOS inverter.
-
-\- The \*\*7nm VS-CNFET 38T full adder\*\* achieved approximately \*\*2.81× higher speed\*\* than its CMOS counterpart.
-
-\- The \*\*7nm VS-CNFET 10T full adder\*\* achieved approximately \*\*1.85× higher speed\*\* than the corresponding CMOS implementation.
-
-\- The \*\*45nm CMOS 10T PTL full adder\*\* achieved the lowest PDP among the evaluated full-adder configurations.
-
-\- Reduced transistor count substantially improved power efficiency in the 10T architecture.
-
-\- The results demonstrate a fundamental \*\*speed-power trade-off\*\* between the evaluated CMOS and VS-CNFET implementations.
-
-\- Both \*\*device technology and circuit topology\*\* must therefore be considered when optimizing digital VLSI circuits.
-
-
-
-\---
-
-
-
-\## Repository Structure
-
-
+## Repository Structure
 
 ```text
-
 .
-
 ├── circuits/
-
 │   ├── inverter/
-
 │   │   ├── 45nm-CMOS/
-
 │   │   └── 7nm-VS-CNFET/
-
 │   ├── full-adder-38T/
-
 │   │   ├── 45nm-CMOS/
-
 │   │   └── 7nm-VS-CNFET/
-
 │   └── full-adder-10T/
-
 │       ├── 45nm-CMOS/
-
 │       └── 7nm-VS-CNFET/
-
 │
-
 ├── results/
-
 │   ├── inverter/
-
 │   ├── full-adder-38T/
-
 │   ├── full-adder-10T/
-
 │   └── comparative-analysis/
-
 │
-
 └── README.md
+```
 
+---
 
-Model and Reproducibility Note
+## Reproducibility
 
-This repository documents circuit implementations, simulation outputs, and
-characterization results from the study.
+This repository contains the circuit schematics, simulation outputs, and
+characterization results used to document the study.
 
-The Cadence GPDK045 PDK and third-party device-model files are not
-redistributed in this repository. Users wishing to reproduce the simulations
-should obtain the required PDK and Stanford VS-CNFET model from their
-respective authorized sources and comply with the applicable licensing terms.
+The **Cadence GPDK045 PDK and third-party VS-CNFET model files are not
+redistributed**. Reproduction therefore requires authorized access to the
+corresponding PDK/model resources and a compatible Cadence simulation
+environment.
 
-Author
+---
 
-Deepesh J
-B.Tech Electronics and Communication Engineering
+## Author
+
+**Deepesh J**  
+B.Tech — Electronics and Communication Engineering  
 SRM Institute of Science and Technology, Vadapalani
 
-Acknowledgements
+---
 
-This project was carried out as part of academic work in VLSI design and
-emerging semiconductor technologies at SRM Institute of Science and
+## Acknowledgements
+
+This investigation was conducted as part of academic work in **VLSI design
+and emerging semiconductor technologies** at SRM Institute of Science and
 Technology.
-
