@@ -1,0 +1,45 @@
+# Cadence generated files
+*.log
+*.log.*
+*.cdslck
+*.cdslck.*
+*.raw
+*.psf
+*.trn
+*.dsn
+
+# Simulation/generated directories
+psf/
+simulation/
+netlist/
+resultsDB/
+
+# Temporary files
+*.tmp
+*.temp
+*~
+*.bak
+*.swp
+
+# Office temporary files
+~$*
+
+# OS metadata
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Archives
+*.zip
+*.7z
+*.rar
+
+# Node dependencies
+node_modules/
+
+# Local project material not intended for publication
+temp/
+old/
+conference/
+report/
+ppt/
